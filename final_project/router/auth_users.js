@@ -38,7 +38,7 @@ regd_users.post("/login", (req,res) => {
             accessToken,
             username
         };
-        return res.status(200).send("User successfully logged in");
+        return res.status(200).json({message: "User successfully logged in"});
     } else {
         return res.status(208).json({message: "Invalid Login. Check username and password"});
     }
@@ -57,7 +57,10 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
     if (books[isbn]) {
         let book = books[isbn];
         book.reviews[username] = review;
-        return res.status(200).send(`The review for the book with ISBN ${isbn} has been added/updated.`);
+        return res.status(200).json({
+            message: `The review for the book with ISBN ${isbn} has been added/updated.`,
+            reviews: book.reviews
+        });
     } else {
         return res.status(404).json({message: `Book with ISBN ${isbn} not found`});
     }
